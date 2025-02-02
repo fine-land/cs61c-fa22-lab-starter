@@ -3,7 +3,7 @@ n: .word 9
 
 .text
 main:
-    add t0, x0, x0 # curr_fib = 0
+    add t0, x0, x0 # curr_fib = 0 add info
     addi t1, x0, 1 # next_fib = 1
     la t3, n # load the address of the label n
     lw t3, 0(t3) # get the value that is stored at the address denoted by the label n
