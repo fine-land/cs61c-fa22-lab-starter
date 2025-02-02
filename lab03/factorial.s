@@ -29,14 +29,14 @@ factorial:
     # YOUR CODE HERE
     li t1 1  # ret 
     li t0 1
-loop:
+Loop:
     beq t0 a0 Ret
     addi t0 t0 1
 
     li t2 1
     mv t3 t1
 Mul:          # a0 = n  t0 = iterator t0   t1 * t0
-    beq t2 t0 loop
+    beq t2 t0 Loop
     add t1 t1 t3 
     addi t2 t2 1
     j Mul

@@ -10,7 +10,6 @@ f:
     slli a0 a0 2
     add a0 a0 t0
     lw a0 0(a0)
-    # a0 = to + a0*4;
     
     # This is how you return from a function. You'll learn more about this later.
     # This should be the last line in your program.
