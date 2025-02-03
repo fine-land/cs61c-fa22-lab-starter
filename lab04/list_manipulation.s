@@ -47,9 +47,14 @@ main:
 update_list:
     # TODO: which registers do we need to save? (complete this after you have finished the other todos because
     # we don't know which registers we need to save until we implement the function)
-
+    addi sp sp -12
+    sw s0 0(sp)
+    sw s1 4(sp)
+    sw ra 8(sp)
+    
     # TODO: implement if (!curr_node) { return; }
-
+    beq a0 zero done
+    
     add s0, a0, x0      # save address of the current node in s0
     add s1, a1, x0      # save address of function in s1
     add t0, x0, x0      # t0 is a counter that we will used to know when we have reached the end of the array
@@ -64,34 +69,44 @@ update_list:
     # we call. This is to enforce the abstraction barrier of calling convention.
 update_list_loop:
     # TODO: load the address of the array of current node into t1
-
+    lw t1 0(s0)
     # TODO: load the size of the node's array into t2
-
+    lw t2 4(s0)  # size == a0 + 4
     # TODO: load the value of the current number that we want to square into a0
     # Remember that t1 = address of array and t0 = index we are modifying
-
+    slli a1 t0 2
+    add a1 t1 a1
+    lw a0 0(a1)
+    # a0 == lw(t1 + 4*t0)
     # TODO: which registers do we need to save before calling square?
     # (do this after implementing the rest of update_list_loop)
-
+    addi sp sp -4
+    sw ra 0(sp)
+    
     jalr s1             # call the function on that value.
 
+    lw ra 0(sp)
+    addi sp sp 4
     # TODO: restore the registers we saved before calling square
     # (do this after implementing the rest of update_list_loop)
 
     # TODO: store the value returned by square back into the array
-
+    sw a0 0(a1)
     addi t0, t0, 1               # increment the count
     bne t0, t2, update_list_loop # repeat if we haven't reached the array size yet
 
     #TODO: load the address of the next node into a0
-    
+    lw a0 8(s0)
     mv a1, s1       # put the address of the function back into a1 to prepare for the recursion
 
     jal  update_list            # recurse
 done:
     # EPILOUGE
     # TODO: restore the registers that we saved at the beginning of update_list
-
+    lw s0 0(sp)
+    lw s1 4(sp)
+    lw ra 8(sp)
+    addi sp sp 12
     jr ra
 
 print_newline:
